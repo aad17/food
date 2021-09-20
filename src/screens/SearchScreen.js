@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import SearchBar from "../components/SearchBar";
 import yelp from "../api/yelp";
 import useResults from "../hooks/useResults";
@@ -19,19 +19,27 @@ const SearchScreen = () => {
 	};
 
 	return (
-		<View>
+		//Here view tag is not used as it cannot provide scrolling in vertical direction
+		<>
 			<SearchBar
 				term={term}
 				onTermChange={setTerm}
 				onTermSubmit={() => searchApi(term)}
 			/>
 			{errorMessage ? <Text>{errorMessage}</Text> : null}
-			<Text>We have found {results.length} results</Text>
-			<ResultsList title="Cost Effective" results={filterResultsByPrice("$")} />
-			<ResultsList title="Bit Pricier" results={filterResultsByPrice("$$")} />
-			<ResultsList title="Big Spender" results={filterResultsByPrice("$$$")} />
-			<ResultsList title="Expensive" results={filterResultsByPrice("$$$$")} />
-		</View>
+			<ScrollView>
+				<ResultsList
+					title="Cost Effective"
+					results={filterResultsByPrice("$")}
+				/>
+				<ResultsList title="Bit Pricier" results={filterResultsByPrice("$$")} />
+				<ResultsList
+					title="Big Spender"
+					results={filterResultsByPrice("$$$")}
+				/>
+				<ResultsList title="Expensive" results={filterResultsByPrice("$$$$")} />
+			</ScrollView>
+		</>
 	);
 };
 
